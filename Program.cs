@@ -5,19 +5,19 @@ using System.IO;
 Console.WriteLine("WeElcome to Texture_Set Maker, please type or copy the full directory of where your images are located\nit is usually the /textures/blocks folder\n");
 string _ = Console.ReadLine();
 
-// create a folder to place the jsons in it in the future (and to direct the jsons to it)
+// Create a folder to place the jsons in it (and to direct jsons later on)
 string folderPath = _ + @"\JSONS\";
 if (folderPath.EndsWith(@"\\")) folderPath.Replace(@"\\", @"\");
 Directory.CreateDirectory(folderPath);
 
 
 string[] image_Directories_Full = Directory.GetFiles(_);
-foreach (string listed_image_Directories_Full in image_Directories_Full)                                // iterating through the array of our directory list for all images and files
+foreach (string listed_image_Directories_Full in image_Directories_Full)
 
 {
-    string image_Name_Without_Extension = Path.GetFileNameWithoutExtension(listed_image_Directories_Full);   //turning the full path of each file into just file name
+    string image_Name_Without_Extension = Path.GetFileNameWithoutExtension(listed_image_Directories_Full);
 
-    string json_Fullpath = folderPath + image_Name_Without_Extension + ".texture_set.json";                           // this line defines the path for jsons we are going to make
+    string json_Fullpath = folderPath + image_Name_Without_Extension + ".texture_set.json";                           // Defining the full path for the jsons we are going to make
     Console.WriteLine(json_Fullpath);
 
 
@@ -36,5 +36,5 @@ foreach (string listed_image_Directories_Full in image_Directories_Full)        
 
 Console.WriteLine("DONE! Find JSONS folder in your textures directory");
 
-// you could make a heightmap/normal switchable code by having a user input, creating an if statement and executing a foreach based on user input
-// could have exceptions, if the file name already has _mer _normal or _heightmap, fully ignore adding _mer,norm,heightmap to it. it'll require some IF ELSE statements, probably
+// Planned: the ability to switch to normal maps and create normal map Jsons instead
+// Planned: Excluding textures if the file name ends with _mer, _normal, _heightmap, this could be tricky as some of default resources end with _normal in their file name.
