@@ -8,7 +8,7 @@ internal class TSMaker
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine("Type 0 or 1\n0 for Heightmap texture sets\n1 for Normal map texture sets\n");
+        Console.WriteLine("Type 0 or 1\n0 for Heightmap texture sets\n1 for Normal map texture sets");
         string heightmap_NormalMap_Switch = Console.ReadLine();
         int answer = int.Parse(heightmap_NormalMap_Switch);
         Console.WriteLine("Selected:");
@@ -94,7 +94,7 @@ internal class TSMaker
             Console.WriteLine("Type 0 or 1 Only, 0 for heightmaps, 1 for normals\nRe-Run the program");
         }
 
-
+        Console.ReadLine();
     }
 }
 
