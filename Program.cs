@@ -17,7 +17,6 @@ internal class TSMaker
         // Heightmaps ----------------------------------------------- Heightmaps
         if (answer == 0)
         {
-
             Console.WriteLine("Heightmaps - Please type or copy the full directory of where your images are located\nIt is usually the /textures/blocks folder in your resource pack\n");
             string _ = Console.ReadLine();
 
