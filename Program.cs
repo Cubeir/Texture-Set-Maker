@@ -103,4 +103,5 @@ internal class TSMaker
 // Planned 3: Re-Run the app whenever user types anything wrong, could be a few cases
 // Planned 4: This app should do anything with the files aren't PNG, JPG, JPEG, TGA, etc... (all other supported formats)
 // Planned 5: Update readme.md with a more accurate description of the app, maybe a little "How To" too in case anyone has any problems.
-// Planned for later: Reading subdirectories and placing the jsons in the directories with the same folder name inside of JSONS folder, e.g HugeFungus folder jsons will be placed in JSONS/HugeFungus
+/* Planned for later: Reading subdirectories and placing the jsons in the directories with the same folder name inside of JSONS folder.
+    e.g App reads files in /blocks/candles, and places candles jsons in JSONS/candles folder */
