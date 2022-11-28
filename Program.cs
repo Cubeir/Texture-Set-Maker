@@ -98,7 +98,7 @@ internal class TSMaker
     }
 }
 // They will be done in the numerical order.
-// Planned 1: This app can use many less lines, I should also work on strings that are displayed to users/clearer instructions.
+// Planned 1: This app can use a lot less lines, I should also work on strings that are displayed to users/have clearer instructions.
 // Planned 2: Exclude textures if the file name ends with _mer, _normal, _heightmap, this could be a bit tricky because of some special cases/exceptions.
 // Planned 3: Re-Run the app whenever user types anything wrong, could be a few cases
 // Planned 4: This app should do anything with the files aren't PNG, JPG, JPEG, TGA, etc... (all other supported formats)
