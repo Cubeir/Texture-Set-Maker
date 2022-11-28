@@ -1,21 +1,8 @@
 ﻿using System;
-/* using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Cryptography.X509Certificates;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Xml.Schema;
-using Microsoft.Win32;
-using System.Runtime.InteropServices;
-using System.Collections.Concurrent; */
-using System.Text;
 using Newtonsoft.Json;
 using System.IO;
 
-Console.WriteLine("Welcome to Texture_Set Maker, please type or copy the full directory of where your images are located\nit is usually the /textures/blocks folder\n");
+Console.WriteLine("WeElcome to Texture_Set Maker, please type or copy the full directory of where your images are located\nit is usually the /textures/blocks folder\n");
 string _ = Console.ReadLine();
 
 // create a folder to place the jsons in it in the future (and to direct the jsons to it)
