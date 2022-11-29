@@ -18,9 +18,9 @@ internal class TSMaker
         int answer = int.Parse(heightmap_NormalMap_Switch);
 
         if (answer == 0)
-            Console.WriteLine(" ------- Normal jsons will be created ------- \nPlease type or copy the full directory of the folder where your images are located\nThis is usually the textures/blocks folder in your Minecraft resource pack\nIsolate the files that you want to generate jsons for\n");
+            Console.WriteLine(" ------- Normal jsons will be made ------- \nPlease type or copy the full directory of the folder where your images are located\nThis is usually the textures/blocks folder in your Minecraft resource pack\nIsolate the files that you want to generate jsons for\n");
         else if (answer == 1)
-            Console.WriteLine(" ------- Heightmap jsons will be created ------- \nPlease type or copy the full directory of the folder where your images are located\nThis is usually the textures/blocks folder in your Minecraft resource pack\nIsolate the files that you want to generate jsons for\n");
+            Console.WriteLine(" ------- Heightmap jsons will be made ------- \nPlease type or copy the full directory of the folder where your images are located\nThis is usually the textures/blocks folder in your Minecraft resource pack\nIsolate the files that you want to generate jsons for\n");
         else
         {
             Console.ForegroundColor = ConsoleColor.Red;
