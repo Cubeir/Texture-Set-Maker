@@ -83,8 +83,8 @@ internal class TSMaker
 // Use TryParse instead and do something about users typing strings instead of 0 and 1 at start
 // Exclude textures if the file name ends with _mer, _normal, _heightmap, this could be a bit tricky because of some special cases/exceptions.
 // Re-Run the app whenever user types anything wrong, could be a few cases
-// This app should do anything with the files aren't PNG, JPG, JPEG, TGA, etc... (or all other supported formats)
+// This app should not do anything with the files that aren't PNG, JPG, JPEG, TGA, etc... (or all other supported formats)
 // Update readme.md with a more accurate description of the app, maybe a little "How To" too in case anyone has any problems.
 // Reading subdirectories and placing the jsons in the directories with the same folder name inside of JSONS folder.
-// e.g App gets files in /blocks/candles, and places candles jsons in JSONS/candles folder */
-// Get files and create copies of the them with the same name + _mer/normal/heightmap in the same directory (Optional)
+// e.g get files in /blocks/candles, and places candles jsons in JSONS/candles folders.
+// Get files and create copies of the them with the same name + _mer/normal/heightmap in the same directory (Optional Feature, answer 0 0 == normal map, without file copy, 0 1 == normal map with file copy)
