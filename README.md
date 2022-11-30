@@ -3,7 +3,7 @@ A lightweight utility to speed up the process of creating a resource pack for Mi
 Requires .NET +6.0
 
 # How To Use
-After opening TextureSetMaker.exe, you face two options (0 and 1)  
+After running TextureSetMaker.exe, you face two options (0 and 1)  
 0 = Normal maps, generates jsons that should be used when you use normal maps for your resource pack. e.g.,  
 ```{"format_version":"1.16.100","minecraft:texture_set":{"color":"build_deny","metalness_emissive_roughness":"build_deny_mer","normal":"build_deny_normal"}}```
 
