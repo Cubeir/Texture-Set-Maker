@@ -8,24 +8,31 @@ internal class TSMaker
 {
     private static void Main(string[] args)
     {
-        Console.ForegroundColor = ConsoleColor.Green;
+        Console.ForegroundColor = ConsoleColor.Yellow;
         Console.BackgroundColor = ConsoleColor.Black;
 
 
         Console.Write("Input 0 or 1\n0 = Normals\n1 = Heightmaps\nType here: ");
 
         string heightmap_NormalMap_Switch = Console.ReadLine();
-        int answer = int.Parse(heightmap_NormalMap_Switch);
-
-        if (answer == 0)
-            Console.WriteLine(" ------- Normal jsons will be made ------- \nPlease type or copy the full directory of the folder where your images are located\nThis is usually the textures/blocks folder in your Minecraft resource pack\nIsolate the files that you want to generate jsons for\n");
-        else if (answer == 1)
-            Console.WriteLine(" ------- Heightmap jsons will be made ------- \nPlease type or copy the full directory of the folder where your images are located\nThis is usually the textures/blocks folder in your Minecraft resource pack\nIsolate the files that you want to generate jsons for\n");
+        if (Int32.TryParse(heightmap_NormalMap_Switch, out int answer))
+        {
+            if (answer == 0)
+                Console.WriteLine(" ------- Normal jsons will be made ------- \nPlease type or copy the full directory of the folder where your images are located\nThis is usually the textures/blocks folder in your Minecraft resource pack\nIsolate the files that you want to generate jsons for\n");
+            else if (answer == 1)
+                Console.WriteLine(" ------- Heightmap jsons will be made ------- \nPlease type or copy the full directory of the folder where your images are located\nThis is usually the textures/blocks folder in your Minecraft resource pack\nIsolate the files that you want to generate jsons for\n");
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Input 0 or 1 only, now close the application");
+            }
+        }
         else
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Input 0 or 1 only, now close the application");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Input a number (0 or 1 only) now close the application");
         }
+        
 
 
 
@@ -80,7 +87,6 @@ internal class TSMaker
 }
 
 // Planned:
-// Use TryParse instead and do something about users typing strings instead of 0 and 1 at start
 // Exclude textures if the file name ends with _mer, _normal, _heightmap, this could be a bit tricky because of some special cases/exceptions.
 // Re-Run the app whenever user types anything wrong, could be a few cases
 // This app should not do anything with the files that aren't PNG, JPG, JPEG, TGA, etc... (or all other supported formats)
