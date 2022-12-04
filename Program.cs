@@ -3,11 +3,9 @@ using Newtonsoft.Json;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using static System.Net.Mime.MediaTypeNames;
-using System.Diagnostics;
 using System.Media;
-using Microsoft.VisualBasic;
 using static System.Console;
-
+using System.Numerics;
 
 internal class TSMaker
 {
@@ -92,18 +90,29 @@ internal class TSMaker
             File.WriteAllText(json_Fullpath, json_File_Content);
         }
  
-        WriteLine($"\nSUCCESSFUL! Find JSONS folder at:\n{folderPath}"); Console.ReadLine();
+       
+        if (answer == 0 || answer == 1)
+        {
+            WriteLine($"\nSUCCESSFUL! Find JSONS folder at:\n{folderPath}");
+            SoundPlayer finishSound = new SoundPlayer("finish.wav");                        // FIX THIS, must play a sound when done.v
+            finishSound.Load();
+            finishSound.Play();
+        }
+        ReadLine();
     }
 }
 
 // ideas/plans:
 
-// Exclude textures if the file name ends with _mer, _normal, _heightmap, this could be a bit tricky because of some special cases/exceptions.
+// This app should not do anything with the files that aren't PNG, JPG, JPEG, TGA etc.. all other supported formats.
 // Re-Run the app whenever user types anything wrong, could be a few cases
-// This app should not do anything with the files that aren't PNG, JPG, JPEG, TGA, etc... (or all other supported formats)
-// Update readme.md with a more accurate description of the app, maybe a little "How To" too in case anyone has any problems.
 // Reading subdirectories and placing the jsons in the directories with the same folder name inside of JSONS folder.
 // e.g get files in /blocks/candles, and places candles jsons in JSONS/candles folders.
 // Get files and create copies of the them with the same name + _mer/normal/heightmap in the same directory (Optional Feature, answer 0 0 == normal map, without file copy, 0 1 == normal map with file copy)|
 // Move it all to an actual Ui
 // A little BIP sound with the DONE message
+
+// v2 so far:
+// General improvements e.g., cleaner text, better exception handling, etc...
+// Exclude textures if the file name ends with _mer, _normal, _heightmap, this could be a bit tricky because of some special cases/exceptions
+// Update readme.md with a more accurate description of the app, maybe a little "How To" too in case anyone has any problems
