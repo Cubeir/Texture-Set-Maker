@@ -1,11 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json;
 using System.IO;
-using Newtonsoft.Json.Linq;
-using static System.Net.Mime.MediaTypeNames;
 using System.Media;
 using static System.Console;
-using System.Numerics;
+
 
 internal class TSMaker
 {
@@ -94,7 +92,7 @@ internal class TSMaker
         if (answer == 0 || answer == 1)
         {
             WriteLine($"\nSUCCESSFUL! Find JSONS folder at:\n{folderPath}");
-            SoundPlayer finishSound = new SoundPlayer("finish.wav");                        // FIX THIS, must play a sound when done.v
+            SoundPlayer finishSound = new SoundPlayer("finish.wav");
             finishSound.Load();
             finishSound.Play();
         }
@@ -110,9 +108,10 @@ internal class TSMaker
 // e.g get files in /blocks/candles, and places candles jsons in JSONS/candles folders.
 // Get files and create copies of the them with the same name + _mer/normal/heightmap in the same directory (Optional Feature, answer 0 0 == normal map, without file copy, 0 1 == normal map with file copy)|
 // Move it all to an actual Ui
-// A little BIP sound with the DONE message
+
 
 // v2 so far:
 // General improvements e.g., cleaner text, better exception handling, etc...
 // Exclude textures if the file name ends with _mer, _normal, _heightmap, this could be a bit tricky because of some special cases/exceptions
 // Update readme.md with a more accurate description of the app, maybe a little "How To" too in case anyone has any problems
+// Add finish sound
