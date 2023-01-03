@@ -136,7 +136,7 @@ internal class TSMaker
             string NormalHeightmap = "";
             if (answer == 0) { NormalHeightmap = "normal"; }
             else if (answer == 1) { NormalHeightmap = "heightmap"; }
-            
+
             string NormalHeightmap_Destination_File = pbrMap_FolderPath_NH + image_Name_Without_Extension + "_" + NormalHeightmap + image_Extension;
             File.Copy(listed_image_Directories_Full, NormalHeightmap_Destination_File, true);
 
@@ -158,7 +158,7 @@ internal class TSMaker
             finishSound.Play();
         }
         ReadLine();
-    } 
+    }
 }
 
 // ideas/plans:
