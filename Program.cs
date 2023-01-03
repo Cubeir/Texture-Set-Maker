@@ -5,6 +5,7 @@ using System.Media;
 using static System.Console;
 using Newtonsoft.Json.Linq;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 internal class TSMaker
 {
@@ -44,15 +45,28 @@ internal class TSMaker
         image_Directories_Full_List = image_Directories_Full.ToList();
 
 
-        // Define the folder path
-        string folderPath = _ + @"\JSONS\";
+        // Define the folders
+        string folderPath = _ + @"\Jsons\";
         if (folderPath.EndsWith(@"\\"))
             folderPath.Replace(@"\\", @"\");
         Directory.CreateDirectory(folderPath);
 
+        string pbrMap_FolderPath_MER = _ + @"\TextureSets\MER\";
+        if (pbrMap_FolderPath_MER.EndsWith(@"\\"))
+            pbrMap_FolderPath_MER.Replace(@"\\", @"\");
+        Directory.CreateDirectory(pbrMap_FolderPath_MER);
+
+        string pbrMap_FolderPath_NH = _ + @"\TextureSets\Normal.Heightmap\";
+        if (pbrMap_FolderPath_NH.EndsWith(@"\\"))
+            pbrMap_FolderPath_NH.Replace(@"\\", @"\");
+        Directory.CreateDirectory(pbrMap_FolderPath_NH);
+
+
+
+
 
         // Get rid of unsupported formats
-        for (int i = image_Directories_Full_List.Count() - 1; i >= 0; i--)
+        for (int i = image_Directories_Full_List.Count() - 1; i >= 0; i--)  // int i is -1 because indexes are zero-based, that means if there are 40 items in our list, we'll need to count from 39 to 0 (which is 40 items in total)
         {
 
             if (!(image_Directories_Full_List[i].EndsWith(".png") || image_Directories_Full_List[i].EndsWith(".jpg") || image_Directories_Full_List[i].EndsWith(".tga") || image_Directories_Full_List[i].EndsWith(".jpeg")))
@@ -75,7 +89,7 @@ internal class TSMaker
             if (image_Name_Without_Extension.EndsWith("mer")) continue;
             else if (image_Name_Without_Extension.EndsWith("heightmap")) continue;
             else if (image_Name_Without_Extension.EndsWith("texture_set")) continue;
-            else if (image_Name_Without_Extension.EndsWith("normal") && !(image_Name_Without_Extension.StartsWith("sandstone") || image_Name_Without_Extension.StartsWith("red_sandstone") || image_Name_Without_Extension.StartsWith("rail")) ) continue;
+            else if (image_Name_Without_Extension.EndsWith("normal") && !(image_Name_Without_Extension.StartsWith("sandstone") || image_Name_Without_Extension.StartsWith("red_sandstone") || image_Name_Without_Extension.StartsWith("rail"))) continue;
 
             string json_Fullpath = folderPath + image_Name_Without_Extension + ".texture_set.json";
             WriteLine(json_Fullpath);
@@ -104,10 +118,36 @@ internal class TSMaker
             }
             else Environment.Exit(1);
 
-           
+
             File.WriteAllText(json_Fullpath, json_File_Content);
-        }
- 
+            // JSON Creation Ends here, variables will be reused.
+
+
+
+
+
+            // PBR Texture files (there will be more operations later to convert this into actual resource pack, manifest generation and many things will come even later)
+            string image_Extension = Path.GetExtension(listed_image_Directories_Full);
+
+            string MER_Destination_File = pbrMap_FolderPath_MER + image_Name_Without_Extension + "_mer" + image_Extension;
+            File.Copy(listed_image_Directories_Full, MER_Destination_File, true);
+
+
+            string NormalHeightmap = "";
+            if (answer == 0) { NormalHeightmap = "normal"; }
+            else if (answer == 1) { NormalHeightmap = "heightmap"; }
+            
+            string NormalHeightmap_Destination_File = pbrMap_FolderPath_NH + image_Name_Without_Extension + "_" + NormalHeightmap + image_Extension;
+            File.Copy(listed_image_Directories_Full, NormalHeightmap_Destination_File, true);
+
+
+
+        } // End of Foreach
+
+
+
+
+
 
         // Finish
         if (answer == 0 || answer == 1)
@@ -125,13 +165,8 @@ internal class TSMaker
 // Re-Run the app whenever user types anything wrong, could be a few cases
 // Reading subdirectories and placing the jsons in the directories with the same folder name inside of JSONS folder.
 // e.g get files in /blocks/candles, and places candles jsons in JSONS/candles folders.
-// Get files and create copies of the them with the same name + _mer/normal/heightmap in the same directory (Optional Feature)
 // Move it all to an actual Ui
 
 
-// v2 so far:
-// This app should not do anything with the files that aren't PNG, JPG, JPEG, TGA etc.. all other supported formats.
-// General improvements e.g., cleaner text, better exception handling, etc...
-// Exclude textures if the file name ends with _mer, _normal, _heightmap, this could be a bit tricky because of some special cases/exceptions
-// Update readme.md with a more accurate description of the app, maybe a little "How To" too in case anyone has any problems
-// Add finish sound
+// v3 so far:
+// Get files and create copies of the them with the same name + _mer/normal/heightmap in the same directory (Optional Feature) [will add  optionlater]
