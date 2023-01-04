@@ -102,14 +102,14 @@ internal class TSMaker
             string normal = image_Name_Without_Extension + "_normal";
             string heightmap = image_Name_Without_Extension + "_heightmap";
 
-            string[] NH = { "normal", "heightmap", normal, heightmap};
+            string[] NH = { "normal", "heightmap", normal, heightmap };
             //------------------------------------ Customize this if you have named your textures in a different way, this will be in users hands in the future along with [1]
 
             json_File_Content = json_File_Content.Replace("X", image_Name_Without_Extension);
             json_File_Content = json_File_Content.Replace("Y", MER);
             json_File_Content = json_File_Content.Replace("W", NH[answer]);
             json_File_Content = json_File_Content.Replace("Z", NH[answer + 2]);
-      
+
             File.WriteAllText(json_Fullpath, json_File_Content);
             // JSON Creation Ends here, variables will be reused.
 
@@ -127,7 +127,6 @@ internal class TSMaker
             File.Copy(listed_image_Directories_Full, NormalHeightmap_Destination_File, false);
 
         }
-
 
 
 
