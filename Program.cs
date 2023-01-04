@@ -34,6 +34,7 @@ internal class TSMaker
         {
             ForegroundColor = ConsoleColor.DarkRed;
             WriteLine("Input a number (0 or 1 only) now close the application");
+            Environment.Exit(1);
         }
 
 
@@ -97,28 +98,18 @@ internal class TSMaker
             //------------------------------------------- Base information which we use to create the json's content
             string json_File_Content = "{\"format_version\":\"1.16.100\",\"minecraft:texture_set\":{\"color\":\"X\",\"metalness_emissive_roughness\":\"Y\",\"W\":\"Z\"}}";
 
-            string[] NH = { "normal", "heightmap" };
             string MER = image_Name_Without_Extension + "_mer";
             string normal = image_Name_Without_Extension + "_normal";
             string heightmap = image_Name_Without_Extension + "_heightmap";
-            //------------------------------------ Customize this if you have named your textures in a different way
+
+            string[] NH = { "normal", "heightmap", normal, heightmap};
+            //------------------------------------ Customize this if you have named your textures in a different way, this will be in users hands in the future along with [1]
 
             json_File_Content = json_File_Content.Replace("X", image_Name_Without_Extension);
             json_File_Content = json_File_Content.Replace("Y", MER);
-
-            if (answer == 0)
-            {
-                json_File_Content = json_File_Content.Replace("W", NH[0]);
-                json_File_Content = json_File_Content.Replace("Z", normal);
-            }
-            else if (answer == 1)
-            {
-                json_File_Content = json_File_Content.Replace("W", NH[1]);
-                json_File_Content = json_File_Content.Replace("Z", heightmap);
-            }
-            else Environment.Exit(1);
-
-
+            json_File_Content = json_File_Content.Replace("W", NH[answer]);
+            json_File_Content = json_File_Content.Replace("Z", NH[answer + 2]);
+      
             File.WriteAllText(json_Fullpath, json_File_Content);
             // JSON Creation Ends here, variables will be reused.
 
@@ -126,23 +117,16 @@ internal class TSMaker
 
 
 
-            // PBR Texture files (there will be more operations later to convert this into actual resource pack, manifest generation and many things will come even later)
+            // PBR Texture files (there will be more operations later, manifest generation and many things will come even later) [1]
             string image_Extension = Path.GetExtension(listed_image_Directories_Full);
 
             string MER_Destination_File = pbrMap_FolderPath_MER + image_Name_Without_Extension + "_mer" + image_Extension;
             File.Copy(listed_image_Directories_Full, MER_Destination_File, true);
 
+            string NormalHeightmap_Destination_File = pbrMap_FolderPath_NH + image_Name_Without_Extension + "_"+NH[answer] + image_Extension;
+            File.Copy(listed_image_Directories_Full, NormalHeightmap_Destination_File, false);
 
-            string NormalHeightmap = "";
-            if (answer == 0) { NormalHeightmap = "normal"; }
-            else if (answer == 1) { NormalHeightmap = "heightmap"; }
-
-            string NormalHeightmap_Destination_File = pbrMap_FolderPath_NH + image_Name_Without_Extension + "_" + NormalHeightmap + image_Extension;
-            File.Copy(listed_image_Directories_Full, NormalHeightmap_Destination_File, true);
-
-
-
-        } // End of Foreach
+        }
 
 
 
