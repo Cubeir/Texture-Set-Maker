@@ -24,7 +24,7 @@ internal class TSMaker
 
         // Store all file directories
         string _ = ReadLine();
-        string[] image_Directories_Full = Directory.GetFiles(_);
+        string[] image_Directories_Full = Directory.GetFiles(_, "*", SearchOption.AllDirectories);
 
         List<string> image_Directories_Full_List = new List<string>();
         image_Directories_Full_List = image_Directories_Full.ToList();
@@ -93,7 +93,7 @@ internal class TSMaker
             string heightmap = image_Name_Without_Extension + "_heightmap";
 
             // string[] NH = { "normal", "heightmap", normal, heightmap };
-            //------------------------------------ Customize this if you have named your textures in a different way, this will be in users hands in the future along with [1]
+            //-------------------------------------------
 
             Normaljson_File_Content = Normaljson_File_Content.Replace("X", image_Name_Without_Extension);
             Normaljson_File_Content = Normaljson_File_Content.Replace("Y", MER);
@@ -119,7 +119,7 @@ internal class TSMaker
             string image_Extension = Path.GetExtension(listed_image_Directories_Full);
 
             string MER_Destination_File = pbrMap_FolderPath_MER + image_Name_Without_Extension + "_mer" + image_Extension;
-            File.Copy(listed_image_Directories_Full, MER_Destination_File, true);
+            File.Copy(listed_image_Directories_Full, MER_Destination_File, false);
 
             string Normal_Destination_File = pbrMap_FolderPath_Normal + image_Name_Without_Extension + "_normal" + image_Extension;
             File.Copy(listed_image_Directories_Full, Normal_Destination_File, false);
@@ -128,22 +128,13 @@ internal class TSMaker
             File.Copy(listed_image_Directories_Full, Heightmap_Destination_File, false);
 
 
-
-
-
-
-
-
         } //end of foreach
 
 
 
 
-
-
-
-            // Finish
-            WriteLine($"\nSUCCESSFUL!");
+        // Finish
+        WriteLine($"\nSUCCESSFUL!");
             SoundPlayer finishSound = new SoundPlayer("finish.wav");
             finishSound.Load();
             finishSound.Play();
@@ -153,11 +144,12 @@ internal class TSMaker
 
 // ideas/plans:
 // Re-Run the app whenever user types anything wrong, could be a few cases
-// Reading subdirectories and placing the jsons in the directories with the same folder name inside of JSONS folder.
-//// e.g get files in /blocks/candles, and places candles jsons in JSONS/candles folders.
 // Move it all to an actual Ui
-// No more "Options" user will just input the pack directory, heightmap and normal jsons are both generated in seperate folders
-//// And heightmaps and normals are both generated too, no more asking for 0 and 1, do it all at once. everything.
+// MS-TD
 
 // v3 so far:
-// Get files and create copies of the them with the same name + _mer/normal/heightmap in the same directory (Optional Feature) [will add  optionlater]
+// Get files and create copies of the them with the same name + _mer/normal/heightmap in the same directory (Optional Feature) [will add  option later]
+// No more "Options" user will just input the pack directory, heightmap and normal jsons are both generated in seperate folders
+//// And heightmaps and normals are both generated too, no more asking for 0 and 1, do it all at once. everything.
+// Reading subdirectories and placing the jsons in the directories with the same folder name inside of JSONS folder.
+//// e.g get files in /blocks/candles, and places candles jsons in JSONS/candles folders. (half done)
