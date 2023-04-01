@@ -22,19 +22,11 @@ internal class TSMaker
     {
         ForegroundColor = ConsoleColor.Yellow;
         BackgroundColor = ConsoleColor.Black;
-        WriteLine(" ------- Let's Make A PBR Resource Pack ------- \nPlease type or copy the full directory of the folder where your base textures are located\nThis is usually the textures/blocks folder in your Minecraft resource pack\n");
-
+        WriteLine(" ------- Let's Make A PBR Resource Pack ------- \nPlease type or copy the full directory of the folder where your base textures are located\nThis is always the textures/blocks folder in your Minecraft resource pack\n");
         string _ = ReadLine();
-        // Store all file directories
+        if (Directory.Exists(_)) WriteLine("PASS!");
+        else                     WriteLine("Directory does not exist");
 
-        if (Directory.Exists(_))
-        {
-            WriteLine("PASS!");
-        }
-        else
-        {
-            WriteLine("error");
-        }
 
         string[] blockTextures_Subdirectories = Directory.GetDirectories(_);
         string[] blocksTextures_Folder = { _ };
