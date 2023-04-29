@@ -67,7 +67,6 @@ internal class TSMaker
             pbrMap_FolderPath_Normal.Replace(@"\\", @"\");
         Directory.CreateDirectory(pbrMap_FolderPath_Normal);
 
-
         // Get rid of unsupported formats
         for (int i = image_Directories_Full_List.Count() - 1; i >= 0; i--)  
         {
@@ -76,6 +75,7 @@ internal class TSMaker
                 image_Directories_Full_List.RemoveAt(i);
             }
         }
+       // image_Directories_Full_List.RemoveAll(x => !x.EndsWith(".png") && !x.EndsWith(".jpg") && !x.EndsWith(".tga") && !x.EndsWith(".jpeg"));
 
             // Factory
             foreach (string listed_image_Directories_Full in image_Directories_Full_List)
@@ -140,8 +140,8 @@ internal class TSMaker
 }
 
 // ideas/plans:
-// Re-Run the app whenever user types anything wrong, could be a few cases
-// Move it all to an actual Ui
+// Re-Run the app whenever user types anything wrong, could be a few cases (using goto)
+// Move it all to a Ui
 // MS-TD
 
 //v4 so far:
