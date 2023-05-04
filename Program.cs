@@ -140,7 +140,7 @@ internal class TSMaker
 }
 
 // ideas/plans:
-// Re-Run the app whenever user types anything wrong, could be a few cases (using goto)
+// Re-Run the app whenever user types anything wrong, could be a few cases to goto
 // Move it all to a Ui
 // MS-TD
 
