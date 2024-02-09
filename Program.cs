@@ -1,34 +1,42 @@
 ﻿using System.Media;
 using static System.Console;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Runtime.InteropServices;
 
 public class TSMaker
 {
     public static void Main(string[] args)
     {
-    ReSet:
+    Restart:
+        Clear();
         ForegroundColor = ConsoleColor.Cyan;
         BackgroundColor = ConsoleColor.Black;
-        WriteLine(" ------- Let's Make A PBR Resource Pack ------- \nPlease type or copy the full directory of the folder where your base textures are located\nThis is always the textures/blocks folder in your Minecraft resource pack\n");
+        WriteLine(" ------- Let's Make A PBR Resource Pack ------- \nType or copy the full directory of the folder where your base textures are located\nThis is usually the textures/blocks folder in your Minecraft resource pack\n");
         string input = ReadLine();
+        input.Trim('\"');
+
         if (Directory.Exists(input))
         {
             WriteLine("Pass.");
+
         }
         else
         {
             WriteLine("Directory does not exist.");
-            goto ReSet;
+            Thread.Sleep(1000);
+            Clear();
+            goto Restart;
         }
 
-        string[] blockTextures_Subdirectories = Directory.GetDirectories(input);
+        string[] blocksTextures_Subdirectories = Directory.GetDirectories(input, "*", SearchOption.AllDirectories);
         string[] blocksTextures_Folder = { input };
-        string[] blockTextures_Folders = blocksTextures_Folder.Concat(blockTextures_Subdirectories).ToArray();
+        string[] allBlocksTextures_Folders = blocksTextures_Folder.Concat(blocksTextures_Subdirectories).ToArray();
 
-        for (int x = 0; x <= blockTextures_Folders.Length - 1; x++)
+        for (int x = 0; x <= allBlocksTextures_Folders.Length - 1; x++)
         {
 
-            string[] imageDirectories = Directory.GetFiles(blockTextures_Folders[x]);
+            string[] imageDirectories = Directory.GetFiles(allBlocksTextures_Folders[x]);
 
             List<string> imageDirectory_List = new List<string>();
             imageDirectory_List = imageDirectories.ToList();
@@ -42,89 +50,99 @@ public class TSMaker
                 }
             }
 
+            // Folders
+            string pbrMap_FolderPath_MER = Path.Combine(allBlocksTextures_Folders[x] + @"\MER-Extension\");
 
-            // Define folders
-            string folderPath_Heightmap = Path.Combine(blockTextures_Folders[x] + @"\Heightmap-Set\");
-            Directory.CreateDirectory(folderPath_Heightmap);
+            string folderPath_Normal = Path.Combine(allBlocksTextures_Folders[x] + @"\Normal-Set\");
 
-            string folderPath_Normal = Path.Combine(blockTextures_Folders[x] + @"\Normal-Set\");
-            Directory.CreateDirectory(folderPath_Normal);
+            string folderPath_Heightmap = Path.Combine(allBlocksTextures_Folders[x] + @"\Heightmap-Set\");
 
-            string pbrMap_FolderPath_MER = Path.Combine(blockTextures_Folders[x] + @"\MERs\");
-            Directory.CreateDirectory(pbrMap_FolderPath_MER);
+            string[] fileCount = Directory.GetFiles(allBlocksTextures_Folders[x]);
+            if (fileCount.Length > 0)
+            {
+                Directory.CreateDirectory(folderPath_Heightmap);
+                Directory.CreateDirectory(folderPath_Normal);
+                Directory.CreateDirectory(pbrMap_FolderPath_MER);
+            }
+            else { ; }
 
 
-            // Factory
+
             foreach (string listed_imageDirectory in imageDirectory_List)
-
             {
                 string imageName = Path.GetFileNameWithoutExtension(listed_imageDirectory);
                 string lowImageNmae = imageName.ToLower();
 
-                // Discard unneeded files
+                // Discard these files (In case input folder already contains PBR files generated with this app).
                 if (lowImageNmae.EndsWith("mer") || lowImageNmae.EndsWith("heightmap") || lowImageNmae.EndsWith("texture_set")) continue;
                 else if (lowImageNmae.EndsWith("normal") && !(lowImageNmae.StartsWith("sandstone") || lowImageNmae.StartsWith("red_sandstone") || lowImageNmae.StartsWith("rail"))) continue;
 
 
-                string Normal_json_path = Path.Combine(folderPath_Normal, $"{imageName}.texture_set.json");
-                string Heightmap_json_path = Path.Combine(folderPath_Heightmap, $"{imageName}.texture_set.json");
+                string NormalJsonPath = Path.Combine(folderPath_Normal, $"{imageName}.texture_set.json");
+                string HeightmapJsonPath = Path.Combine(folderPath_Heightmap, $"{imageName}.texture_set.json");
 
                 string MER = $"{imageName}_mer";
                 string normal = $"{imageName}_normal";
                 string heightmap = $"{imageName}_heightmap";
 
-                var textureSetNormal = new
-                {
-                    format_version = "1.16.100",
-                    minecraft = new
-                    {
-                        texture_set = new
-                        {
-                            color = imageName,
-                            metalness_emissive_roughness = MER,
-                            normal = normal
-                        }
-                    }
-                };
+                JObject normalTextureSet = new JObject(
+                    new JProperty("format_version", "1.16.100"),
+                    new JProperty("minecraft:texture_set",
+                        new JObject(
+                            new JProperty("color", imageName),
+                            new JProperty("metalness_emissive_roughness", MER),
+                            new JProperty("normal", normal)
+                        )
+                    )
+                );
+                JObject heightmapTextureSet = new JObject(
+                    new JProperty("format_version", "1.16.100"),
+                    new JProperty("minecraft:texture_set",
+                        new JObject(
+                            new JProperty("color", imageName),
+                            new JProperty("metalness_emissive_roughness", MER),
+                            new JProperty("heightmap", heightmap)
+                        )
+                    )
+                );
 
-                var textureSetHeightmap = new
-                {
-                    format_version = "1.16.100",
-                    minecraft = new
-                    {
-                        texture_set = new
-                        {
-                            color = imageName,
-                            metalness_emissive_roughness = MER,
-                            heightmap = heightmap
-                        }
-                    }
-                };
+                string NormaljsonContent = normalTextureSet.ToString();
+                string HeightmapjsonContent = heightmapTextureSet.ToString();
 
-                string Normaljson_File_Content = JsonConvert.SerializeObject(textureSetNormal, Formatting.Indented);
-                string Heightmapjson_File_Content = JsonConvert.SerializeObject(textureSetHeightmap, Formatting.Indented);
+                File.WriteAllText(NormalJsonPath, NormaljsonContent);
+                File.WriteAllText(HeightmapJsonPath, HeightmapjsonContent);
 
-                File.WriteAllText(Normal_json_path, Normaljson_File_Content);
-                File.WriteAllText(Heightmap_json_path, Heightmapjson_File_Content);
+                WriteLine(NormalJsonPath);
+                WriteLine(HeightmapJsonPath);
 
                 // PBR Texture files copied to their directories
                 string image_Extension = Path.GetExtension(listed_imageDirectory);
+                try
+                {
+                    string MER_Destination_File = Path.Combine(pbrMap_FolderPath_MER + imageName + "_mer" + image_Extension);
+                    File.Copy(listed_imageDirectory, MER_Destination_File, false);
 
-                string MER_Destination_File = Path.Combine(pbrMap_FolderPath_MER + imageName + "_mer" + image_Extension);
-                File.Copy(listed_imageDirectory, MER_Destination_File, false);
+                    string Normal_Destination_File = Path.Combine(folderPath_Normal + imageName + "_normal" + image_Extension);
+                    File.Copy(listed_imageDirectory, Normal_Destination_File, false);
 
-                string Normal_Destination_File = Path.Combine(folderPath_Normal + imageName + "_normal" + image_Extension);
-                File.Copy(listed_imageDirectory, Normal_Destination_File, false);
-
-                string Heightmap_Destination_File = Path.Combine(folderPath_Heightmap + imageName + "_heightmap" + image_Extension);
-                File.Copy(listed_imageDirectory, Heightmap_Destination_File, false);
-
+                    string Heightmap_Destination_File = Path.Combine(folderPath_Heightmap + imageName + "_heightmap" + image_Extension);
+                    File.Copy(listed_imageDirectory, Heightmap_Destination_File, false);
+                }
+                catch
+                {
+                    WriteLine("One or more of PBR files already exists.");
+                }
             }
         }
-        WriteLine($"\nSUCCESSFUL!");
-        SoundPlayer finishSound = new SoundPlayer("finish.wav");
-        finishSound.Load();
-        finishSound.Play();
-        ReadLine();
+
+        WriteLine($"\nSuccessful.");
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            SoundPlayer finishSound = new SoundPlayer("finish.wav");
+            finishSound.Load();
+            finishSound.Play();
+        }
+        Thread.Sleep(2000);
+        goto Restart;
     }
 }
